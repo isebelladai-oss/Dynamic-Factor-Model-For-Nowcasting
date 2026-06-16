@@ -141,7 +141,7 @@ rate_raw = rate_raw.loc[~rate_raw[date_col].isin(metadata_labels)].copy()
 
 ### 3.2 不应整套同步到汇总 notebook
 
-`处理疫情模型效果汇总.ipynb` 只需要同步路径相关修法，不需要同步变量准备修法。
+`滚动窗口模型效果汇总.ipynb` 只需要同步路径相关修法，不需要同步变量准备修法。
 
 原因：
 

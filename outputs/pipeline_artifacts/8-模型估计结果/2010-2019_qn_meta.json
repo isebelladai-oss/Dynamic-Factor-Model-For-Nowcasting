@@ -86,13 +86,13 @@
   "qn_stop_patience": 5,
   "qn_aitken_relative_gap_tol": 1e-05,
   "success": true,
-  "message": "Stopped by QN Aitken gap 4.981e-06 < 1e-05.",
-  "early_stop": true,
-  "stop_reason": "aitken_relative_gap",
-  "start_loglike": 147.37588636333362,
-  "best_loglike": 149.68491523239715,
-  "improvement": 2.309028869063525,
-  "eval_count": 304,
+  "message": "loaded_from_cache",
+  "early_stop": false,
+  "stop_reason": "loaded_from_cache",
+  "start_loglike": 147.37588636333257,
+  "best_loglike": 149.6849152323969,
+  "improvement": 2.3090288690643206,
+  "eval_count": 0,
   "qn_iterations": 10,
-  "qn_runtime_seconds": 9.876662900001975
+  "qn_runtime_seconds": 0.04571360000409186
 }

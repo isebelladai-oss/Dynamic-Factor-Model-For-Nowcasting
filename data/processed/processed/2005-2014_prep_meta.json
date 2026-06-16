@@ -40,7 +40,7 @@
   ],
   "train_window_max_missing_rate": 0.8,
   "window_label": "2005-2014",
-  "training_window_coverage_path": "E:\\财遇见你\\大四\\申万实习\\动态因子模型\\动态因子模型\\outputs\\pipeline_artifacts\\1-训练期窗口诊断\\2005-2014_training_coverage.csv",
+  "training_window_coverage_path": "E:\\财遇见你\\大四\\申万实习\\动态因子模型 git\\outputs\\pipeline_artifacts\\1-训练期窗口诊断\\2005-2014_training_coverage.csv",
   "model_cols_before_screening": [
     "GDP同比",
     "制造业PMI_去季节性",
@@ -92,7 +92,7 @@
     "逆回购7天(19日)",
     "银行间7天回购(20-19均值)"
   ],
-  "pca_init_variable_rules_path": "E:\\财遇见你\\大四\\申万实习\\动态因子模型\\动态因子模型\\outputs\\pipeline_artifacts\\7-相关性检验\\2005-2014_pca_rules.csv",
+  "pca_init_variable_rules_path": "E:\\财遇见你\\大四\\申万实习\\动态因子模型 git\\outputs\\pipeline_artifacts\\7-相关性检验\\2005-2014_pca_rules.csv",
   "seasonally_adjusted_cols": [
     "制造业PMI_去季节性",
     "制造业PMI一阶差分_去季节性",
@@ -107,11 +107,11 @@
     "制造业PMI一阶差分",
     "服务业PMI一阶差分"
   ],
-  "unwinsorized_model_panel_path": "E:\\财遇见你\\大四\\申万实习\\动态因子模型\\动态因子模型\\data\\processed\\processed\\2005-2014_unwinsorized_panel.csv",
-  "prepared_model_panel_path": "E:\\财遇见你\\大四\\申万实习\\动态因子模型\\动态因子模型\\data\\processed\\processed\\2005-2014_prepared_panel.csv",
-  "standardized_input_path": "E:\\财遇见你\\大四\\申万实习\\动态因子模型\\动态因子模型\\data\\processed\\processed\\2005-2014_std_input.csv",
-  "standardization_params_path": "E:\\财遇见你\\大四\\申万实习\\动态因子模型\\动态因子模型\\data\\processed\\processed\\2005-2014_std_params.csv",
-  "winsor_limits_path": "E:\\财遇见你\\大四\\申万实习\\动态因子模型\\动态因子模型\\outputs\\pipeline_artifacts\\3-缩尾处理\\2005-2014_winsor_limits.csv",
+  "unwinsorized_model_panel_path": "E:\\财遇见你\\大四\\申万实习\\动态因子模型 git\\data\\processed\\processed\\2005-2014_unwinsorized_panel.csv",
+  "prepared_model_panel_path": "E:\\财遇见你\\大四\\申万实习\\动态因子模型 git\\data\\processed\\processed\\2005-2014_prepared_panel.csv",
+  "standardized_input_path": "E:\\财遇见你\\大四\\申万实习\\动态因子模型 git\\data\\processed\\processed\\2005-2014_std_input.csv",
+  "standardization_params_path": "E:\\财遇见你\\大四\\申万实习\\动态因子模型 git\\data\\processed\\processed\\2005-2014_std_params.csv",
+  "winsor_limits_path": "E:\\财遇见你\\大四\\申万实习\\动态因子模型 git\\outputs\\pipeline_artifacts\\3-缩尾处理\\2005-2014_winsor_limits.csv",
   "seasonal_adjustment_summary_path": null,
   "seasonal_adjustment_params_path": null,
   "model_variant_tag": "expandedvars"

@@ -1,0 +1,9 @@
+﻿variant,variant_label,sample,quarter_month_order,n_obs,n_correct,n_opposite_error,n_used,n_ignored,directional_accuracy
+vs_past2_actual_mean,相较前两期真实GDP均值,全部月份,all,108.0,48.0,12.0,60.0,48.0,0.8
+vs_past2_actual_mean,相较前两期真实GDP均值,季度第一个月,1,36.0,13.0,4.0,17.0,19.0,0.7647058823529411
+vs_past2_actual_mean,相较前两期真实GDP均值,季度第二个月,2,36.0,17.0,4.0,21.0,15.0,0.8095238095238095
+vs_past2_actual_mean,相较前两期真实GDP均值,季度第三个月,3,36.0,18.0,4.0,22.0,14.0,0.8181818181818182
+vs_lag1_actual,相较上一期真实GDP,全部月份,all,108.0,43.0,10.0,53.0,55.0,0.8113207547169812
+vs_lag1_actual,相较上一期真实GDP,季度第一个月,1,36.0,9.0,6.0,15.0,21.0,0.6
+vs_lag1_actual,相较上一期真实GDP,季度第二个月,2,36.0,15.0,3.0,18.0,18.0,0.8333333333333334
+vs_lag1_actual,相较上一期真实GDP,季度第三个月,3,36.0,19.0,1.0,20.0,16.0,0.95

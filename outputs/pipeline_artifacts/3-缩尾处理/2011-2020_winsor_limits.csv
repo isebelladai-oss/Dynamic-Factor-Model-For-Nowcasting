@@ -1,0 +1,15 @@
+﻿variable,lower_q,upper_q,threshold_months,apply_months,february_policy,lower_bound,upper_bound,n_obs_total,n_obs_threshold_months,n_obs_apply_months,n_lower_clipped,n_upper_clipped,n_total_clipped
+制造业PMI,0.01,0.99,3-12,3-12,not_winsorized_because_1_2_month_combined,49.198,53.300999999999995,120,100,100,1,1,2
+制造业PMI一阶差分,0.01,0.99,3-12,3-12,not_winsorized_because_1_2_month_combined,-1.4149999999999987,1.3080000000000014,120,100,100,1,1,2
+服务业PMI,0.01,0.99,3-12,3-12,not_winsorized_because_1_2_month_combined,51.934,56.51,107,90,90,1,1,2
+服务业PMI一阶差分,0.01,0.99,3-12,3-12,not_winsorized_because_1_2_month_combined,-2.4109999999999987,2.1000000000000014,106,90,90,1,0,1
+工业增加值,0.01,0.99,3-12,3-12,not_winsorized_because_1_2_month_combined,4.3950000000000005,14.803000000000003,120,100,100,1,1,2
+用电量,0.01,0.99,3-12,3-12,not_winsorized_because_1_2_month_combined,-2.15403784,13.909199999999972,108,97,97,1,1,2
+社零,0.01,0.99,3-12,3-12,not_winsorized_because_1_2_month_combined,-3.66375,17.704,113,100,100,1,1,2
+固投累计同比,0.01,0.99,3-12,3-12,not_winsorized_because_1_2_month_combined,-6.41425,25.602000000000004,111,100,100,1,1,2
+固投当月同比,0.01,0.99,3-12,3-12,not_winsorized_because_1_2_month_combined,-67.29142928510622,50.35075006188394,110,100,100,1,1,2
+CPI,0.01,0.99,3-12,3-12,not_winsorized_because_1_2_month_combined,0.193,6.3559600000000005,120,100,100,1,1,2
+PPI,0.01,0.99,3-12,3-12,not_winsorized_because_1_2_month_combined,-5.922923,7.5406,120,100,100,1,1,2
+失业率差分,0.01,0.99,3-12,3-12,not_winsorized_because_1_2_month_combined,-0.2000000000000001,0.27099999999999996,35,30,30,0,1,1
+逆回购7天(19日),0.01,0.99,3-12,3-12,not_winsorized_because_1_2_month_combined,2.2,4.1,120,100,100,0,0,0
+银行间7天回购(20-19均值),0.01,0.99,3-12,3-12,not_winsorized_because_1_2_month_combined,1.6935101634408607,5.390073300000004,120,100,100,1,1,2
