@@ -1,0 +1,2 @@
+﻿summary_type,n_obs,mean_error_raw,mae_raw,rmse_raw,corr_raw
+filter_monthly_overall,1320.0,0.024611163718576905,0.515361581651341,0.7590043715239188,0.9384736734293175

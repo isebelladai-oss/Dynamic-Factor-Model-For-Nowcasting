@@ -1,0 +1,2 @@
+﻿reading_method,intercept_std,macro_coef,real_coef,train_start,train_end,n_training_months,note
+model_loading_direct,,,,2005-01,2014-12,120,GDP nowcast uses model_loading_gdp_raw directly.

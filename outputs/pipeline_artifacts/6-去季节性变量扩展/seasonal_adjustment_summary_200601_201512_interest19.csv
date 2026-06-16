@@ -1,0 +1,5 @@
+﻿source_variable,adjusted_variable,method,month_effect_test,baseline_month,n_obs_train,source_std_train,adjusted_std_train,max_abs_month_effect,original_variable_removed
+制造业PMI,制造业PMI_去季节性,subtract_regression_month_dummy_coef_after_trend_ar1,yes,1,120,2.8689689436663866,2.8167090071249654,2.192556100548273,True
+制造业PMI一阶差分,制造业PMI一阶差分_去季节性,subtract_regression_month_dummy_coef_after_trend_ar1,yes,1,120,1.7690877354036336,1.4725513669424846,2.22079723191303,True
+固投累计同比,固投累计同比_去季节性,subtract_regression_month_dummy_coef_after_trend_ar1,yes,2,110,5.775996225681844,5.769303139587212,1.8820469971587588,True
+固投当月同比,固投当月同比_去季节性,subtract_regression_month_dummy_coef_after_trend_ar1,yes,2,109,12.312906167159262,10.74953768484912,20.59156739298079,True

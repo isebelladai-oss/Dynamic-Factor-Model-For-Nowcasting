@@ -1,0 +1,92 @@
+{
+  "train_start": "2005-01",
+  "train_end": "2014-12",
+  "factor_ar_order": 6,
+  "min_h": 0.005,
+  "factors": [
+    "macro",
+    "real",
+    "nominal"
+  ],
+  "model_cols": [
+    "GDP同比",
+    "制造业PMI_去季节性",
+    "服务业PMI",
+    "工业增加值",
+    "社零",
+    "固投累计同比_去季节性",
+    "CPI",
+    "PPI",
+    "逆回购7天(19日)",
+    "银行间7天回购(20-19均值)"
+  ],
+  "model_cols_valid": [
+    "GDP同比",
+    "制造业PMI_去季节性",
+    "服务业PMI",
+    "工业增加值",
+    "社零",
+    "固投累计同比_去季节性",
+    "CPI",
+    "PPI",
+    "逆回购7天(19日)",
+    "银行间7天回购(20-19均值)"
+  ],
+  "allowed_factor_by_variable": {
+    "制造业PMI_去季节性": [
+      "macro",
+      "real"
+    ],
+    "服务业PMI": [
+      "macro",
+      "real"
+    ],
+    "工业增加值": [
+      "macro",
+      "real"
+    ],
+    "社零": [
+      "macro",
+      "real"
+    ],
+    "固投累计同比_去季节性": [
+      "macro",
+      "real"
+    ],
+    "CPI": [
+      "macro",
+      "nominal"
+    ],
+    "PPI": [
+      "macro",
+      "nominal"
+    ],
+    "逆回购7天(19日)": [
+      "macro",
+      "nominal"
+    ],
+    "银行间7天回购(20-19均值)": [
+      "macro",
+      "nominal"
+    ],
+    "GDP同比": [
+      "macro",
+      "real"
+    ]
+  },
+  "optimized_parameters": "AR only; loading, H, and initial state are fixed at EM estimates",
+  "qn_ftol": 1e-06,
+  "qn_stop_rel_change": 1e-06,
+  "qn_stop_patience": 5,
+  "qn_aitken_relative_gap_tol": 1e-05,
+  "success": true,
+  "message": "loaded_from_cache",
+  "early_stop": false,
+  "stop_reason": "loaded_from_cache",
+  "start_loglike": 12.91822038737724,
+  "best_loglike": 56.34516548008692,
+  "improvement": 43.42694509270968,
+  "eval_count": 0,
+  "qn_iterations": 487,
+  "qn_runtime_seconds": 0.04001959998277016
+}
