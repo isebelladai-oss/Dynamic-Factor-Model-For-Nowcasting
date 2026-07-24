@@ -1,0 +1,104 @@
+{
+  "train_start": "2015-01",
+  "train_end": "2024-12",
+  "factor_ar_order": 6,
+  "min_h": 0.005,
+  "factors": [
+    "macro",
+    "real",
+    "nominal"
+  ],
+  "model_cols": [
+    "GDP同比",
+    "制造业PMI一阶差分_去季节性",
+    "服务业PMI",
+    "工业增加值",
+    "用电量",
+    "社零",
+    "固投当月同比_去季节性",
+    "CPI",
+    "PPI",
+    "失业率差分_去季节性",
+    "逆回购7天(19日)",
+    "银行间7天回购(20-19均值)"
+  ],
+  "model_cols_valid": [
+    "GDP同比",
+    "制造业PMI一阶差分_去季节性",
+    "服务业PMI",
+    "工业增加值",
+    "用电量",
+    "社零",
+    "固投当月同比_去季节性",
+    "CPI",
+    "PPI",
+    "失业率差分_去季节性",
+    "逆回购7天(19日)",
+    "银行间7天回购(20-19均值)"
+  ],
+  "allowed_factor_by_variable": {
+    "制造业PMI一阶差分_去季节性": [
+      "macro",
+      "real"
+    ],
+    "服务业PMI": [
+      "macro",
+      "real"
+    ],
+    "工业增加值": [
+      "macro",
+      "real"
+    ],
+    "用电量": [
+      "macro",
+      "real"
+    ],
+    "社零": [
+      "macro",
+      "real"
+    ],
+    "固投当月同比_去季节性": [
+      "macro",
+      "real"
+    ],
+    "CPI": [
+      "macro",
+      "nominal"
+    ],
+    "PPI": [
+      "macro",
+      "nominal"
+    ],
+    "失业率差分_去季节性": [
+      "macro",
+      "real"
+    ],
+    "逆回购7天(19日)": [
+      "macro",
+      "nominal"
+    ],
+    "银行间7天回购(20-19均值)": [
+      "macro",
+      "nominal"
+    ],
+    "GDP同比": [
+      "macro",
+      "real"
+    ]
+  },
+  "optimized_parameters": "AR only; loading, H, and initial state are fixed at EM estimates",
+  "qn_ftol": 1e-06,
+  "qn_stop_rel_change": 1e-06,
+  "qn_stop_patience": 5,
+  "qn_aitken_relative_gap_tol": 1e-05,
+  "success": true,
+  "message": "Stopped by QN Aitken gap 8.437e-06 < 1e-05.",
+  "early_stop": true,
+  "stop_reason": "aitken_relative_gap",
+  "start_loglike": -297.1471517909482,
+  "best_loglike": -227.9117481081775,
+  "improvement": 69.23540368277071,
+  "eval_count": 4978,
+  "qn_iterations": 237,
+  "qn_runtime_seconds": 237.12599159998354
+}

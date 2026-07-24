@@ -1,0 +1,3 @@
+﻿"window_label","result_status","notebook_exists","train_metrics_exists","em_meta_exists","qn_meta_exists"
+"2007-2016","missing_train_metrics;missing_em_meta;missing_qn_meta","True","False","False","False"
+"2015-2024","missing_train_metrics;missing_em_meta;missing_qn_meta","True","False","False","False"

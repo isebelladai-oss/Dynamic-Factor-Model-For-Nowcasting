@@ -1,0 +1,153 @@
+{
+  "model": "three_factor_block_loading",
+  "train_start": "2015-01",
+  "train_end": "2024-12",
+  "factor_ar_order": 6,
+  "factors": [
+    "macro",
+    "real",
+    "nominal"
+  ],
+  "real_activity_cols": [
+    "制造业PMI一阶差分_去季节性",
+    "服务业PMI",
+    "工业增加值",
+    "用电量",
+    "社零",
+    "固投当月同比_去季节性",
+    "失业率差分_去季节性"
+  ],
+  "nominal_cols": [
+    "CPI",
+    "PPI",
+    "逆回购7天(19日)",
+    "银行间7天回购(20-19均值)"
+  ],
+  "macro_cols": [
+    "制造业PMI一阶差分_去季节性",
+    "服务业PMI",
+    "工业增加值",
+    "用电量",
+    "社零",
+    "固投当月同比_去季节性",
+    "CPI",
+    "PPI",
+    "失业率差分_去季节性",
+    "逆回购7天(19日)",
+    "银行间7天回购(20-19均值)"
+  ],
+  "allowed_factor_by_variable": {
+    "制造业PMI一阶差分_去季节性": [
+      "macro",
+      "real"
+    ],
+    "服务业PMI": [
+      "macro",
+      "real"
+    ],
+    "工业增加值": [
+      "macro",
+      "real"
+    ],
+    "用电量": [
+      "macro",
+      "real"
+    ],
+    "社零": [
+      "macro",
+      "real"
+    ],
+    "固投当月同比_去季节性": [
+      "macro",
+      "real"
+    ],
+    "CPI": [
+      "macro",
+      "nominal"
+    ],
+    "PPI": [
+      "macro",
+      "nominal"
+    ],
+    "失业率差分_去季节性": [
+      "macro",
+      "real"
+    ],
+    "逆回购7天(19日)": [
+      "macro",
+      "nominal"
+    ],
+    "银行间7天回购(20-19均值)": [
+      "macro",
+      "nominal"
+    ],
+    "GDP同比": [
+      "macro",
+      "real"
+    ]
+  },
+  "final_loglike": -297.1471517909482,
+  "iterations": 58,
+  "a1": {
+    "macro_alpha_t": 12.589605427798274,
+    "macro_alpha_lag1": 12.842795859355864,
+    "macro_alpha_lag2": 10.852131691240865,
+    "macro_alpha_lag3": 3.32951666261298,
+    "macro_alpha_lag4": -2.511166430672138,
+    "macro_alpha_lag5": -5.814812307914316,
+    "macro_S_t": 7.431422072956927,
+    "macro_S_lag1": 16.528870470421783,
+    "real_alpha_t": -24.154886286298442,
+    "real_alpha_lag1": -24.594945256596727,
+    "real_alpha_lag2": -17.3626657153563,
+    "real_alpha_lag3": -8.019354837544697,
+    "real_alpha_lag4": -2.9467197954261426,
+    "real_alpha_lag5": -5.377566655483452,
+    "real_S_t": -5.289359493529722,
+    "real_S_lag1": -0.21649734532126746,
+    "nominal_alpha_t": 15.241160488458524,
+    "nominal_alpha_lag1": 10.554318161148,
+    "nominal_alpha_lag2": 10.59333618416155,
+    "nominal_alpha_lag3": 20.688560606379124,
+    "nominal_alpha_lag4": 17.991785409262324,
+    "nominal_alpha_lag5": -24.40703147115851,
+    "nominal_S_t": 1.4227747278677112,
+    "nominal_S_lag1": 1.4227747278638903
+  },
+  "model_cols": [
+    "GDP同比",
+    "制造业PMI一阶差分_去季节性",
+    "服务业PMI",
+    "工业增加值",
+    "用电量",
+    "社零",
+    "固投当月同比_去季节性",
+    "CPI",
+    "PPI",
+    "失业率差分_去季节性",
+    "逆回购7天(19日)",
+    "银行间7天回购(20-19均值)"
+  ],
+  "model_cols_valid": [
+    "GDP同比",
+    "制造业PMI一阶差分_去季节性",
+    "服务业PMI",
+    "工业增加值",
+    "用电量",
+    "社零",
+    "固投当月同比_去季节性",
+    "CPI",
+    "PPI",
+    "失业率差分_去季节性",
+    "逆回购7天(19日)",
+    "银行间7天回购(20-19均值)"
+  ],
+  "implementation": "fast_numpy_loop",
+  "history_has_timing": true,
+  "em_runtime_seconds": 15.146498500020243,
+  "max_iter": null,
+  "min_h": 0.005,
+  "relative_loglike_tol": 0.0001,
+  "paper_relative_loglike_tol": 0.0001,
+  "em_to_qn_relative_loglike_tol": 0.0001
+}
