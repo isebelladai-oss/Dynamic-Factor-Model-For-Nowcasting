@@ -162,7 +162,7 @@ flowchart LR
 
 - 状态转移方程 $\xi_t = T_t \xi_{t-1} + \eta_t$，其中 $\eta_t \sim N(0,Q)$
 
-其中，$S_t$ 与 $M_t$ 分别表示混频处理引入的求和累加器与平均累加器状态：前者用于把月频潜在状态映射到季度 GDP 等流量观测，后者用于映射利率等存量或均值型观测。
+其中， $S_t$ 与 $M_t$ 分别表示混频处理引入的求和累加器与平均累加器状态：前者用于把月频潜在状态映射到季度 GDP 等流量观测，后者用于映射利率等存量或均值型观测。
 
 #### (3) 因子加载规则
 
@@ -182,7 +182,7 @@ flowchart LR
 x_t = Z_t \xi_t + \varepsilon_t, \qquad Z_t = [\Lambda_f \; \Lambda_S \; \Lambda_M]
 ```
 
-其中，$\Lambda_S$ 对应求和累加器 $S_t$ 的观测载荷，主要服务于季度 GDP 等流量变量；$\Lambda_M$ 对应平均累加器 $M_t$ 的观测载荷，主要服务于利率等存量或均值型变量。
+其中， $\Lambda_S$ 对应求和累加器 $S_t$ 的观测载荷，主要服务于季度 GDP 等流量变量； $\Lambda_M$ 对应平均累加器 $M_t$ 的观测载荷，主要服务于利率等存量或均值型变量。
 
 **（1）求和累加器**
 
@@ -283,7 +283,7 @@ R \\
 - 有效观测载荷矩阵 $Z_t^* = W_t Z_t$
 - 有效观测误差协方差 $H_t^* = W_t H_t W_t'$
 
-因此，Kalman filter 在每一期实际使用的是 $y_t^*$、$Z_t^*$ 与 $H_t^*$，从而保证 nowcasting 只依赖当期真实可获得的信息集。
+因此，Kalman filter 在每一期实际使用的是 $y_t^*$ 、 $Z_t^*$ 与 $H_t^*$ ，从而保证 nowcasting 只依赖当期真实可获得的信息集。
 
 ## 7. 参数估计
 
@@ -304,7 +304,7 @@ PCA 初始化遵循“总体因子优先、分类残差再分解”的思路：
 #### （1）初始化观测方程： $x_t = Z_t \xi_t + \varepsilon_t$，其中 $\varepsilon_t \sim N(0,H)$
 
 - 月频变量在允许加载的因子集合上做无截距 OLS，直接求得**初始观测载荷矩阵**$Z_t$中的相应载荷系数，如 $\lambda_{ij}$。
-- GDP 只在发布月参与观测，并由允许因子的季度累加器滞后项解释，因此对应的 **GDP 载荷**可写为：$y_t^{GDP} = \lambda_{GDP}' S_{t-1} + \varepsilon_t^{GDP}$。
+- GDP 只在发布月参与观测，并由允许因子的季度累加器滞后项解释，因此对应的 **GDP 载荷**可写为： $y_t^{GDP} = \lambda_{GDP}' S_{t-1} + \varepsilon_t^{GDP}$ 。
 - **观测误差协方差矩阵** $H$ 由观测方程回归残差的均方初始化，对角元素可记为 $h_i = \mathrm{Var}(\varepsilon_{i,t})$，并设置下限约束以避免数值不稳定。
 
 #### （2）初始化状态转移方程： $\xi_t = T_t \xi_{t-1} + \eta_t$，其中 $\eta_t \sim N(0,Q)$
@@ -365,7 +365,7 @@ flowchart LR
 
 3. **新数据到来后，做卡尔曼更新**：
    - 先由选择矩阵构造有效观测集
-   - 计算预测误差 News：$v_t = x_t - Z_t a_t^{-}$
+   - 计算预测误差 News： $v_t = x_t - Z_t a_t^{-}$
    - 更新误差协方差 $F_t = Z_t P_t^{-} Z_t' + H_t$
    - 计算卡尔曼增益 $K_t = P_t^{-} Z_t' F_t^{-1}$
    - 状态更新 $a_t = a_t^{-} + K_t v_t$。
@@ -506,23 +506,11 @@ flowchart LR
 
 IC 检验用于衡量增长信号与下一期债券收益之间的线性相关性。
 
-- 核心公式为：
+- 核心公式为 $IC = \mathrm{Corr}(GDP_t, r_{t+1})$
 
-```math
-IC = \mathrm{Corr}(GDP_t, r_{t+1})
-```
+- 进一步考察排序意义上的单调关系，计算 $RankIC = \mathrm{Corr}(\mathrm{Rank}(GDP_t), \mathrm{Rank}(r_{t+1}))$
 
-- 进一步考察排序意义上的单调关系，计算：
-
-```math
-RankIC = \mathrm{Corr}(\mathrm{Rank}(GDP_t), \mathrm{Rank}(r_{t+1}))
-```
-
-- 为评估信号稳定性，计算 `36` 个月滚动窗口下的：
-
-```math
-ICIR = \bar{IC} / \sigma_{IC}
-```
+- 为评估信号稳定性，计算**36个月**滚动窗口下的 $ICIR = \bar{IC} / \sigma_{IC}$
 
 | 标的 | 信号 | IC | Rank IC | 36M ICIR |
 | --- | --- | ---: | ---: | ---: |
@@ -544,7 +532,7 @@ ICIR = \bar{IC} / \sigma_{IC}
 bond\_ret_{t+1} = \alpha + \beta \cdot nowcasting\_GDP_t + \gamma' controls_t + \varepsilon_{t+1}
 ```
 
-其中，$controls_t$ 包括宏观经济变量、流动性变量等控制项。
+其中， $controls_t$ 包括宏观经济变量、流动性变量等控制项。
 
 | 标的 | 信号 | `beta` | `t_stat` | `p_value` | `adj_r2` |
 | --- | --- | ---: | ---: | ---: | ---: |
