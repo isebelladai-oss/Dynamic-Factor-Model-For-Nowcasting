@@ -372,7 +372,7 @@ flowchart LR
 
 4. **输出当期 nowcasting**：在更新后的状态基础上递推累加器，并根据观测载荷关系得到新的 GDP 预测，再反标准化为 GDP 同比。
 
-综上，核心修正关系可写为：
+综上，核心修正关系为：
 
 ```math
 \hat{GDP}_{q|t}^{std,new} - \hat{GDP}_{q|t}^{std,old} = Z_{GDP} K_t (x_t - Z_t a_{t|t-1})
