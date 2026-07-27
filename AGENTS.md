@@ -2,7 +2,7 @@
 
 ## 1. 文件目的
 
-本文件用于定义本仓库的 agent 执行规范。其目标是：在不破坏研究流程可复现性的前提下，保持 notebook、模型中产物、结果文档、README 展示材料与文件说明的一致性。
+本文件用于定义本仓库的 agent 执行规范。其目标是：在不破坏研究流程可复现性的前提下，保持 notebook、模型中产物、结果文档、README 展示材料与输出目录之间的一致性。
 
 除非用户在当前任务中明确给出更高优先级指令，否则 agent MUST 将本文件视为默认执行约束。
 
@@ -32,42 +32,62 @@
 
 ### 4.1 编号系统必须同步
 
-Notebook 步骤编号、notebook 内 markdown 标题编号、模型流程中产物文件夹编号，MUST 保持一致。
+若 notebook 内存在步骤编号、markdown 标题编号与输出文件夹编号，它们 MUST 保持一致。
 
-若在已有步骤之前插入新步骤，agent MUST 同步修改以下内容：
+若在已有步骤之前插入新步骤，agent MUST 同步检查并更新以下内容：
 
 - notebook markdown 标题编号；
 - 代码中的输出目录变量；
-- `月频模型/模型流程中产物` 下的文件夹编号；
+- `outputs/pipeline_artifacts` 下对应文件夹编号；
 - notebook 中用于定位输出的打印文案；
-- `项目文件说明.md` 中对应条目。
+- README 或说明文档中涉及该步骤的引用。
 
-中产物文件夹命名格式固定为：
+流程型中产物目录当前使用如下格式：
 
 ```text
-月频模型/模型流程中产物/N-步骤名称
+outputs/pipeline_artifacts/N-步骤名称
 ```
 
 例如：
 
 ```text
-月频模型/模型流程中产物/1-训练期窗口诊断
+outputs/pipeline_artifacts/1-训练期窗口诊断
 ```
 
 ### 4.2 中产物存放规则
 
-agent MUST NOT 将诊断 CSV、核对表、比较图片、临时复查结果散落在 `月频模型/processed`。
+agent MUST NOT 将诊断 CSV、核对表、比较图片、临时复查结果散落在 `data/processed`。
 
 目录分工如下：
 
-- `月频模型/processed`：模型最终输入、标准化输入、缓存、估计结果、核心流程下游读取文件；
-- `月频模型/模型流程中产物/N-步骤名称`：诊断、复查、比较、验证、解释性输出。
+- `data/raw`：原始数据或未处理数据；
+- `data/processed`：处理后的研究数据、模型输入数据、下游 notebook 需要读取的数据文件；
+- `outputs/pipeline_artifacts/N-步骤名称`：流程诊断、复查、比较、验证、解释性输出；
+- `outputs/final_results`：最终研究结果汇总、主表、最终版输出；
+- `00_docs/readme_assets`：README 展示图片与展示型资源。
 
 输出文件名 MUST 具备可读性，能够直接体现用途，例如：
 
 - `training_window_candidate_summary.csv`
 - `seasonality_test_results.csv`
 - `nowcast_monthly_overall_plot.png`
+
+### 4.3 路径与引用必须同步
+
+当文件或文件夹发生以下任一情况时，agent MUST 同步检查所有下游引用：
+
+- 新增；
+- 移动；
+- 重命名；
+- 用途发生明显变化；
+- 新增 notebook 读取关系。
+
+至少需要检查：
+
+- notebook 中的读写路径；
+- README 中的相对路径；
+- 输出提示文案；
+- 研究结果汇总 notebook 是否仍能读取对应文件。
 
 ## 5. Notebook 修改规范
 
@@ -83,7 +103,34 @@ agent SHOULD 默认只修改与当前任务直接相关的 notebook。
 
 - 插入位置位于其逻辑依赖完成之后；
 - 插入位置位于依赖该结果的后续建模步骤之前；
-- 不应静默改变 baseline 默认流程。
+- 不应静默改变当前主线研究流程。
+
+### 5.3 滚动窗口配置规则
+
+涉及滚动窗口、样本区间或窗口标签的修改时，agent MUST 优先查找 notebook 中集中定义窗口参数的位置，再做局部修改。
+
+若用户要求扩大、平移或重设训练窗口：
+
+- MUST 只修改窗口集中配置处；
+- SHOULD 让后续流程自动继承；
+- MUST NOT 在不同 notebook 中引入互相冲突的硬编码窗口标签。
+
+### 5.4 变量筛选规则
+
+训练窗口变化时，agent MUST NOT 默认重新做变量筛选。
+
+仅当用户明确要求重筛时，agent 才 MAY 执行变量重筛；否则：
+
+- 保留当前模型变量集合；
+- 基于新训练窗口重新计算缩尾阈值；
+- 基于新训练窗口重新计算标准化参数；
+- 基于新训练窗口重新生成缓存或估计结果（若下游确实依赖）。
+
+### 5.5 高成本重跑纪律
+
+若新增步骤的目的只是帮助判断模型问题，agent MUST NOT 自动重跑完整模型流程。
+
+agent SHOULD 优先做轻量级诊断；只有在用户明确要求、或下游逻辑确实依赖时，才 MAY 执行完整重跑。
 
 ## 6. README 与展示文档规范
 
@@ -158,30 +205,35 @@ README 资源文件统一放在：
 
 本项目研究季度 GDP 发布滞后条件下的实时 nowcasting 问题。核心目标是利用更早发布的月频宏观变量与更高频的流动性指标，对中国 GDP 同比增速进行实时预测，并进一步检验该信号在债券市场中的解释力与交易价值。
 
-### 7.2 当前 baseline 设定
+### 7.2 当前主线结构
 
-除非用户另行说明，agent MUST 默认采用以下 baseline 语境：
+除非用户另行说明，agent MUST 将以下目录视为当前主线研究结构：
 
-- 工作 notebook：`1 baseline_training_flow.ipynb`；
-- baseline 输入文件：`baseline_model_input.csv`；
-- 默认训练窗口：`2005-01` 至 `2014-12`；
-- 训练窗口调整只应通过 `TRAIN_START` / `TRAIN_END` 完成。
+- `01_data_preparation`：数据准备；
+- `02_rolling_window_nowcasting`：滚动窗口 nowcasting 主流程与汇总结果；
+- `03_bond_backtest`：债券回测与信号检验；
+- `outputs/pipeline_artifacts`：流程型中产物；
+- `outputs/final_results`：最终结果汇总；
+- `00_docs`：README 展示资源、参考文献与说明性文档。
 
-### 7.3 当前核心变量背景
+### 7.3 当前主线 notebook
 
-当前 baseline 的核心模型变量共十个左右，重点包括：
+当前仓库中的主线 notebook 主要包括：
 
-- GDP；
-- PMI 水平值；
-- 工业增加值；
-- 用电量；
-- 社零；
-- 固定资产投资；
-- CPI；
-- PPI；
-- 失业率差分。
+- `01_data_preparation/1 data-processing gdp&macro data.ipynb`
+- `02_rolling_window_nowcasting/2005-2014窗口.ipynb`
+- `02_rolling_window_nowcasting/2006-2015窗口.ipynb` 至 `2016-2025窗口.ipynb`
+- `02_rolling_window_nowcasting/滚动窗口模型效果汇总.ipynb`
+- `02_rolling_window_nowcasting/滚动窗口模型效果汇总（去疫情期）.ipynb`
+- `03_bond_backtest/3 GDP_Bond_Backtest.ipynb`
 
-### 7.4 默认诊断顺序
+agent SHOULD 先确认当前任务对应的是哪一条主线，再决定修改范围。
+
+### 7.4 当前核心变量背景
+
+当前研究围绕 GDP、PMI、工业增加值、用电量、社零、固定资产投资、CPI、PPI、流动性指标与失业率相关变量展开。变量处理与窗口设定可能因 notebook 不同而略有差异，因此 agent MUST 以当前目标 notebook 的实际实现为准，而不是假定存在单一全局变量文件。
+
+### 7.5 默认诊断顺序
 
 若用户未指定其他路径，模型复查优先级 SHOULD 为：
 
@@ -195,16 +247,16 @@ README 资源文件统一放在：
 
 ## 8. 当前编号基准
 
-在 `1 baseline_training_flow.ipynb` 中，当前插入的 `2A. 训练期候选窗口诊断` 对应输出目录为：
+当前流程型中产物目录以 `outputs/pipeline_artifacts` 为基准，例如：
 
 ```text
-月频模型/模型流程中产物/1-训练期窗口诊断
+outputs/pipeline_artifacts/1-训练期窗口诊断
 ```
 
 额外约束如下；agent MUST 遵守：
 
-- 所有涉及训练窗口的输出文件名，应从 `TRAIN_WINDOW_TAG` 派生；
-- 后续新增诊断步骤编号应从 `2-...` 延续；
+- 所有涉及窗口或样本区间的输出文件名，SHOULD 使用可追踪的窗口标签；
+- 后续新增诊断步骤编号应沿现有目录编号体系延续；
 - 若发生前置插入，必须重新同步整条编号链。
 
 ## 9. agent 结束前检查清单
@@ -213,10 +265,10 @@ agent 在完成任务前，MUST 至少确认以下事项：
 
 - notebook、文件夹与文档中的编号是否一致；
 - 路径变动是否同步更新了 notebook 输出提示；
-- `项目文件说明.md` 是否需要更新；
 - README 中公式或图片是否可能在 GitHub 上渲染失效；
 - 中产物是否被写入了错误目录；
-- 修改是否保留了研究叙事与经济含义。
+- 修改是否保留了研究叙事与经济含义；
+- 当前 AGENTS 约束是否仍与仓库实际结构一致。
 
 ## 10. 非目标事项
 
