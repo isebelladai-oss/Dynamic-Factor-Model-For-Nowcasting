@@ -275,15 +275,15 @@ R \\
 
 为处理 `ragged edge`这一核心问题，项目不对样本末端未发布数据做机械补齐，而是根据当月真实可得信息构造选择矩阵 $W_t$，从完整观测向量中提取当期已发布变量。
 
-设完整观测方程为 $y_t = Z_t \xi_t + \varepsilon_t$，其中 $\varepsilon_t \sim N(0, H_t)$。
+设完整观测方程为 $x_t = Z_t \xi_t + \varepsilon_t$，其中 $\varepsilon_t \sim N(0, H_t)$。
 
 在仅保留当期可观测变量后，可得到：
 
-- 有效观测向量 $y_t^* = W_t y_t$
+- 有效观测向量 $x_t^* = W_t x_t$
 - 有效观测载荷矩阵 $Z_t^* = W_t Z_t$
 - 有效观测误差协方差 $H_t^* = W_t H_t W_t'$
 
-因此，Kalman filter 在每一期实际使用的是 $y_t^*$ 、 $Z_t^*$ 与 $H_t^*$ ，从而保证 nowcasting 只依赖当期真实可获得的信息集。
+因此，Kalman filter 在每一期实际使用的是 $x_t^*$ 、 $Z_t^*$ 与 $H_t^*$ ，从而保证 nowcasting 只依赖当期真实可获得的信息集。
 
 ## 7. 参数估计
 
@@ -304,7 +304,7 @@ PCA 初始化遵循“总体因子优先、分类残差再分解”的思路：
 #### （1）初始化观测方程： $x_t = Z_t \xi_t + \varepsilon_t$，其中 $\varepsilon_t \sim N(0,H)$
 
 - 月频变量在允许加载的因子集合上做无截距 OLS，直接求得**初始观测载荷矩阵**$Z_t$中的相应载荷系数，如 $\lambda_{ij}$。
-- GDP 只在发布月参与观测，并由允许因子的季度累加器滞后项解释，因此对应的 **GDP 载荷**可写为： $y_t^{GDP} = \lambda_{GDP}' S_{t-1} + \varepsilon_t^{GDP}$ 。
+- GDP 只在发布月参与观测，并由允许因子的季度累加器滞后项解释，因此对应的 **GDP 载荷**可写为： $x_t^{GDP} = \lambda_{GDP}' S_{t-1} + \varepsilon_t^{GDP}$ 。
 - **观测误差协方差矩阵** $H$ 由观测方程回归残差的均方初始化，对角元素可记为 $h_i = \mathrm{Var}(\varepsilon_{i,t})$，并设置下限约束以避免数值不稳定。
 
 #### （2）初始化状态转移方程： $\xi_t = T_t \xi_{t-1} + \eta_t$，其中 $\eta_t \sim N(0,Q)$
