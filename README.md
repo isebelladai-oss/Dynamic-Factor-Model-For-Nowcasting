@@ -310,7 +310,7 @@ PCA 初始化遵循“总体因子优先、分类残差再分解”的思路：
 #### （2）初始化状态转移方程： $\xi_t = T_t \xi_{t-1} + \eta_t$，其中 $\eta_t \sim N(0,Q)$
 
 - 对每个 PCA 初始因子分别做无截距 `AR(6)` OLS，直接求得**状态转移矩阵** $T_t$中的 AR 系数，即 $f_t = \rho_1 f_{t-1} + \rho_2 f_{t-2} + \cdots + \rho_6 f_{t-6} + u_t$。
-- 在得到 AR 系数后，进一步构造 Kalman filter 所需的初始**状态均值**$\mathbb{E}(\xi_0)$与**状态协方差矩阵**$\mathrm{Var}(\xi_0)$ 。
+- 在得到 AR 系数后，进一步构造 Kalman filter 所需的初始**状态均值**$E(\xi_0)$与**状态协方差矩阵**$\mathrm{Var}(\xi_0)$ 。
 
 ### 7.3 EM 迭代与 Quasi-Newton 微调
 
@@ -319,10 +319,17 @@ PCA 初始化遵循“总体因子优先、分类残差再分解”的思路：
 EM 迭代以上一步得到的初始值为输入，在 E-step 与 M-step 之间交替更新参数。
 
 - **E-step**：在给定当前参数 $\theta^{(k)} = \{\rho, L, H, a_1\}$ 的条件下，利用 Kalman filter 与 smoother 计算隐状态的条件期望、协方差及相关二阶矩。
-- **M-step**：在 E-step 输出的基础上，条件极大化期望对数似然并更新参数 $\theta = \{\rho, L, H, a_1\}$，即 $\theta^{(k+1)} = \arg\max_{\theta} E\left[\log p(Y,F;\theta)\mid Y,\theta^{(k)}\right]$。
-- **收敛标准**：以相对对数似然变化衡量，定义为$
-\mathrm{rel\_change} = \frac{|\ell^{(k)}-\ell^{(k-1)}|}{\max(1,|\ell^{(k-1)}|)} < 10^{-4}$
+- **M-step**：在 E-step 输出的基础上，条件极大化期望对数似然并更新参数 $\theta = \{\rho, L, H, a_1\}$，其更新目标写为：
 
+```math
+\theta^{(k+1)} = \mathrm{arg\,max}_{\theta} \; E[\log p(Y,F;\theta) \mid Y, \theta^{(k)}]
+```
+
+- **收敛标准**：以相对对数似然变化衡量，定义为：
+
+```math
+\mathrm{rel\_change} = \frac{|\ell^{(k)}-\ell^{(k-1)}|}{\max(1, |\ell^{(k-1)}|)} < 10^{-4}
+```
 
 ![EM 迭代的 E-step 与 M-step 工作流](00_docs/readme_assets/em_m_step_workflow.png)
 
@@ -331,8 +338,11 @@ EM 迭代以上一步得到的初始值为输入，在 E-step 与 M-step 之间�
 在 EM 收敛后，再使用 Quasi-Newton 做局部微调，以进一步提高参数估计的稳定性。
 
 - QN 阶段固定观测载荷矩阵 $L$、观测误差方差矩阵 $H$ 和初始状态均值 $a_1$，仅优化三个因子的 AR(6) 系数 $\rho$。优化目标仍为 Kalman log likelihood。
-- **收敛标准**：当相对对数似然变化满足$
-\frac{|\ell^{(k)}-\ell^{(k-1)}|}{\max(1,|\ell^{(k-1)}|)} < 10^{-6}$，且连续满足 5 次时，停止 QN 迭代。
+- **收敛标准**：当相对对数似然变化满足下式，且连续满足 `5` 次时，停止 QN 迭代：
+
+```math
+\frac{|\ell^{(k)}-\ell^{(k-1)}|}{\max(1, |\ell^{(k-1)}|)} < 10^{-6}
+```
 
 ## 8. 实时更新机制
 
@@ -351,13 +361,13 @@ flowchart LR
 
 2. **新数据到来前，先做先验预测**：根据上一期状态形成本期先验预测
    - 当前状态期望 $a_t^{-} = T a_{t-1}$
-   - 当前状态方差 $P_t^- = T P_{t-1} T' + Q$。
+   - 当前状态方差 $P_t^{-} = T P_{t-1} T' + Q$。
 
 3. **新数据到来后，做卡尔曼更新**：
    - 先由选择矩阵构造有效观测集
    - 计算预测误差 News：$v_t = x_t - Z_t a_t^{-}$
-   - 更新误差协方差 $F_t = Z_t P_t^- Z_t' + H_t$
-   - 计算卡尔曼增益 $K_t = P_t^- Z_t' F_t^{-1}$
+   - 更新误差协方差 $F_t = Z_t P_t^{-} Z_t' + H_t$
+   - 计算卡尔曼增益 $K_t = P_t^{-} Z_t' F_t^{-1}$
    - 状态更新 $a_t = a_t^{-} + K_t v_t$。
 
 4. **输出当期 nowcasting**：在更新后的状态基础上递推累加器，并根据观测载荷关系得到新的 GDP 预测，再反标准化为 GDP 同比。
@@ -365,12 +375,11 @@ flowchart LR
 综上，核心修正关系可写为：
 
 ```math
-\underbrace{\hat{GDP}_{q\mid t}^{std,new}-\hat{GDP}_{q\mid t}^{std,old}}_{\text{GDP预测修正}}
-=
-\underbrace{Z_{GDP}K_t}_{\text{新数据对GDP的更新权重}} \times \underbrace{\left(x_t-Z_t a_{t\mid t-1}\right)}_{\text{新数据的意外成分News}}
+\hat{GDP}_{q|t}^{std,new} - \hat{GDP}_{q|t}^{std,old} = Z_{GDP} K_t (x_t - Z_t a_{t|t-1})
 ```
 
-## 9. 模型输出
+其中，左侧表示 **GDP 预测修正**；右侧第一项 $Z_{GDP} K_t$ 表示 **新数据对 GDP 的更新权重**；第二项 $x_t - Z_t a_{t|t-1}$ 表示 **新数据的意外成分（News）**。
+
 
 ### 9.1 GDP nowcasting 输出
 
@@ -496,10 +505,24 @@ flowchart LR
 ### 11.2 IC 检验
 
 IC 检验用于衡量增长信号与下一期债券收益之间的线性相关性。
-- 核心公式为 $IC = \mathrm{Corr}(GDP_t, r_{t+1})$
-- 进一步考察排序意义上的单调关系，计算 $RankIC = \mathrm{Corr}(\mathrm{Rank}(GDP_t), \mathrm{Rank}(r_{t+1}))$
-- 为评估信号稳定性，计算 `36` 个月滚动窗口下的 $ICIR = \overline{IC} / \sigma_{IC}$。
 
+- 核心公式为：
+
+```math
+IC = \mathrm{Corr}(GDP_t, r_{t+1})
+```
+
+- 进一步考察排序意义上的单调关系，计算：
+
+```math
+RankIC = \mathrm{Corr}(\mathrm{Rank}(GDP_t), \mathrm{Rank}(r_{t+1}))
+```
+
+- 为评估信号稳定性，计算 `36` 个月滚动窗口下的：
+
+```math
+ICIR = \bar{IC} / \sigma_{IC}
+```
 
 | 标的 | 信号 | IC | Rank IC | 36M ICIR |
 | --- | --- | ---: | ---: | ---: |
@@ -513,7 +536,6 @@ IC 检验用于衡量增长信号与下一期债券收益之间的线性相关�
 - IC 为负，GDP 上修通常对应下一月债券净价收益走弱。
 - nowcasting 信号方向正确，但强度弱于真实 GDP。
 
-### 11.3 时间序列回归
 
 时间序列回归用于检验在控制其他宏观与流动性变量后，增长信号是否仍对下一期债券收益具有边际解释力。
 回归形式可写为：
